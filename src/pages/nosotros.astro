@@ -1,7 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import imagenNosotros from "../img/nosotros.jpg"
 
+const url = `${import.meta.env.PUBLIC_API_URL}/about/?populate=imagen`
+const res = await fetch(url)
+const { data } = await res.json()
+
+const { contenido, imagen } = data.attributes
 ---
 
 <Layout title="Nosotros" description="Tienda de instrumentos musicales, cursos, blog de musica, guitarras">
@@ -9,15 +13,10 @@ import imagenNosotros from "../img/nosotros.jpg"
 		<h1 class="heading">Nosotros</h1>
 
 		<div class="contenido">
-			<img src={imagenNosotros} alt="Imagen de nosotros">
+			<img src={imagen.data.attributes.url} alt="Imagen de nosotros">
 
 			<div>
-				<p>
-					Morbi volutpat nunc at lacus laoreet mollis. Donec sagittis cursus urna, eget malesuada leo tincidunt non. Aliquam in massa porttitor, fringilla ipsum a, porttitor nibh. In hac habitasse platea dictumst. Ut mi ipsum, dictum a euismod eget, ultricies sit amet felis. Duis in ipsum mi. Quisque suscipit mi eu sollicitudin euismod. Ut dolor ante, lacinia ut velit non, aliquet lobortis purus. Integer in eros nibh.
-				</p>
-				<p>
-					Aliquam justo lorem, lacinia nec augue in, porttitor auctor tellus. Nullam eu sagittis metus. Aenean dolor lectus, pretium vel consectetur id, faucibus id arcu. Nunc vel ex ac massa iaculis porttitor. Curabitur vel orci nec mauris tempor auctor. Aliquam at pellentesque felis. Aliquam egestas aliquam diam eu mattis. Vivamus luctus risus est, et dapibus justo pharetra sed. Phasellus facilisis porttitor justo, a rhoncus purus dictum molestie. Mauris congue justo ac odio iaculis accumsan.
-				</p>
+				<p class="texto">{contenido}</p>
 			</div>
 		</div>
 
@@ -35,4 +34,7 @@ import imagenNosotros from "../img/nosotros.jpg"
         	align-items: center;
     	}
 	}
+	.texto {
+        white-space: pre-wrap;
+    }
 </style>
