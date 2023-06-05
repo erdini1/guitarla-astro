@@ -1,19 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Guitarra from '../components/Guitarra.astro';
+import Curso from "../components/Curso.astro"
 import Post from '../components/Post.astro';
 
 // Llamado a la API de Guitarras
 const urlGuitarras = `${import.meta.env.PUBLIC_API_URL}/guitarras/?populate=imagen`
+const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso/?populate=imagen`
 const urlPosts = `${import.meta.env.PUBLIC_API_URL}/posts/?populate=imagen`
 
-const [resGuitarras, resPosts] = await Promise.all([
+const [resGuitarras, resCurso, resPosts] = await Promise.all([
 	fetch(urlGuitarras),
+	fetch(urlCurso),
 	fetch(urlPosts)
 ])
 
-const [{data: guitarras}, {data: posts}] = await Promise.all([
+const [{data: guitarras}, {data: curso}, {data: posts}] = await Promise.all([
 	resGuitarras.json(),
+	resCurso.json(),
 	resPosts.json()
 ])
 
@@ -23,7 +27,7 @@ const [{data: guitarras}, {data: posts}] = await Promise.all([
 	<main class="contenedor">
 		<h1 class="heading">Nuestra Colección</h1>
 		<div class="grid">
-			{guitarras?.map(guitarra => (
+			{guitarras?.map( guitarra => (
 				<Guitarra 
 					nombre={guitarra.attributes.nombre}
 					descripcion={guitarra.attributes.descripcion}
@@ -33,9 +37,16 @@ const [{data: guitarras}, {data: posts}] = await Promise.all([
 				/>
 			))}
 		</div>
+	</main>
 
+	<Curso 
+		titulo={curso.attributes.titulo}
+		contenido={curso.attributes.contenido}
+		imagen={curso.attributes.imagen.data.attributes.url}
+	/>
 
-		<h1 class="heading">Blog</h1>
+	<section class="contenedor">
+		<h2 class="heading">Blog</h2>
 		<div class="grid">
 			{posts?.map( post => (
 				<Post 
@@ -47,7 +58,7 @@ const [{data: guitarras}, {data: posts}] = await Promise.all([
 				/>
 			))}
 		</div>
-	</main>
+	</section>
 </Layout>
 
 <style>
