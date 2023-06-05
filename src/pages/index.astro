@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Guitarra from '../components/Guitarra.astro';
 import Curso from "../components/Curso.astro"
 import Post from '../components/Post.astro';
+import ComponenteReact from "../components/ComponenteReact"
 
 // Llamado a la API de Guitarras
 const urlGuitarras = `${import.meta.env.PUBLIC_API_URL}/guitarras/?populate=imagen`
@@ -44,6 +45,8 @@ const [{data: guitarras}, {data: curso}, {data: posts}] = await Promise.all([
 		contenido={curso.attributes.contenido}
 		imagen={curso.attributes.imagen.data.attributes.url}
 	/>
+
+	<ComponenteReact />
 
 	<section class="contenedor">
 		<h2 class="heading">Blog</h2>
